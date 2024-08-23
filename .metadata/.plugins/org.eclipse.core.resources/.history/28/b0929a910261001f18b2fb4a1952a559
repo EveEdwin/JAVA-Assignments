@@ -1,0 +1,102 @@
+package Area;
+import java.util.Scanner;
+abstract class Shape {
+    Scanner sc = new Scanner(System.in);
+    double length, breadth;
+    abstract double computeArea();
+    void getDim() {
+        System.out.println("Enter the length: ");
+        length = sc.nextDouble();
+        System.out.println("Enter the breadth: ");
+        breadth = sc.nextDouble();
+    }
+}
+class Rectangle extends Shape {
+    void getDim() {
+        System.out.println("Enter the length of the rectangle: ");
+        length = sc.nextDouble();
+        System.out.println("Enter the breadth of the rectangle: ");
+        breadth = sc.nextDouble();
+    }
+    double computeArea() {
+        return length * breadth;
+    }
+}
+class Triangle extends Shape {
+    void getDim() {
+        System.out.println("Enter the base of the triangle: ");
+        length = sc.nextDouble();
+        System.out.println("Enter the height of the triangle: ");
+        breadth = sc.nextDouble();
+    }
+    double computeArea() {
+        return 0.5 * length * breadth;
+    }
+}
+
+class Parallelogram extends Shape{
+	void getDim(){
+		System.out.println("Enter the base of the Paralleloram: ");
+		length = sc.nextDouble();
+		System.out.println("Enter the height of the Paralleloram: ");
+		breadth = sc.nextDouble();
+	}
+	double computeArea() {
+        return length * breadth;
+    }
+}
+class Rhombus extends Shape{
+	void getDim(){
+		System.out.println("Enter the base of the Rhombus: ");
+		length = sc.nextDouble();
+		System.out.println("Enter the height of the Rhombus: ");
+		breadth = sc.nextDouble();
+	}
+	double computeArea() {
+        return length * breadth;
+    }
+}
+public class Area {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n;
+        Shape s;
+        do {
+            System.out.println("Find the area of: ");
+            System.out.println("1. Rectangle");
+            System.out.println("2. Triangle");
+            System.out.println("3. Parallelogram");
+            System.out.println("4. Rhombus");
+            System.out.println("0. Exit");
+            n = sc.nextInt();
+            switch (n) {
+                case 1:
+                    s = new Rectangle();
+                    s.getDim();
+                    System.out.println("Area of the rectangle: " + s.computeArea());
+                    break;
+                case 2:
+                    s = new Triangle();
+                    s.getDim();
+                    System.out.println("Area of the triangle: " + s.computeArea());
+                    break;
+                case 3:
+                    s = new Parallelogram();
+                    s.getDim();
+                    System.out.println("Area of the parallelogram: " + s.computeArea());
+                    break;
+                case 4:
+                    s = new Rhombus();
+                    s.getDim();
+                    System.out.println("Area of the rhombus: " + s.computeArea());
+                    break;
+                case 0:
+                    System.out.println("Area Calculated!!!");
+                    break;
+                default:
+                    System.out.println("Invalid choice! Chose Correctly");
+            }
+        } while (n != 0);
+        sc.close();
+    }
+}
