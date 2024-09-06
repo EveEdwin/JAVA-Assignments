@@ -1,0 +1,97 @@
+package Books;
+import java.util.Scanner;
+class Publication {
+    String title;
+    double price;
+    int copies;
+    public Publication(String title, double price, int copies) {
+        this.title = title;
+        this.price = price;
+        this.copies = copies;
+    }
+    public double saleCopy() {
+        return copies * price;
+    }
+}
+class Book extends Publication {
+    String author;
+
+    public Book(String title, double price, int copies, String author) {
+        super(title, price, copies);
+        this.author = author;
+    }
+    public void orderCopies(int additionalCopies) {
+        copies += additionalCopies;
+        System.out.println("Ordered " + additionalCopies + " more copies of the book: " + title);
+    }
+}
+
+class Magazine extends Publication {
+    String currentIssue;
+
+    public Magazine(String title, double price, int copies, String currentIssue) {
+        super(title, price, copies);
+        this.currentIssue = currentIssue;
+    }
+    public void orderQty(int additionalCopies) {
+        copies += additionalCopies;
+        System.out.println("Ordered " + additionalCopies + " more copies of the magazine: " + title);
+    }
+    public void receiveIssue(String newIssue) {
+        currentIssue = newIssue;
+        System.out.println("Received new issue: " + currentIssue + " of magazine: " + title);
+    }
+}
+public class Books {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        Book book1 = new Book("3 Mistakes of my life", 150.0, 100, "Chetan Bhagat");
+        Magazine mag1 = new Magazine("India Today", 50.0, 200, "August 2024");
+        
+        int choice;
+        do {
+            System.out.println("\nMenu:");
+            System.out.println("1. Order more copies of Book");
+            System.out.println("2. Order more copies of Magazine");
+            System.out.println("3. Receive new issue of Magazine");
+            System.out.println("4. Display total sales");
+            System.out.println("0. Exit");
+            System.out.print("Enter your choice: ");
+            choice = sc.nextInt();
+            
+            switch (choice) {
+                case 1:
+                    System.out.print("Enter number of additional copies for the book: ");
+                    int bookCopies = sc.nextInt();
+                    book1.orderCopies(bookCopies);
+                    break;
+                    
+                case 2:
+                    System.out.print("Enter number of additional copies for the magazine: ");
+                    int magCopies = sc.nextInt();
+                    mag1.orderQty(magCopies);
+                    break;
+                case 3:
+                    System.out.print("Enter the new issue of the magazine: ");
+                    sc.nextLine();
+                    String newIssue = sc.nextLine();
+                    mag1.receiveIssue(newIssue);
+                    break;
+                    
+                case 4:
+                    double totalSales = book1.saleCopy() + mag1.saleCopy();
+                    System.out.println("Total sale of publication: $" + totalSales);
+                    break;
+                    
+                case 0:
+                    System.out.println("Exiting...");
+                    break;
+                    
+                default:
+                    System.out.println("Invalid choice! Please choose again.");
+            }
+        } while (choice != 0);
+        
+        sc.close();
+    }
+}

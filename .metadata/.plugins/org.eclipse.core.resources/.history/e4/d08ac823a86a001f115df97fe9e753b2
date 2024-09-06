@@ -1,0 +1,203 @@
+package Books;
+import java.util.Scanner;
+
+class Publication {
+    String title;
+    double price;
+    int copies;
+
+    public Publication(String title, double price, int copies) {
+        this.title = title;
+        this.price = price;
+        this.copies = copies;
+    }
+
+    public double saleCopy(int copiesSold) {
+        if (copiesSold <= copies) {
+            copies -= copiesSold;
+            return copiesSold * price;
+        } else {
+            System.out.println("Not enough copies in inventory!");
+            return 0;
+        }
+    }
+
+    public void addCopies(int additionalCopies) {
+        copies += additionalCopies;
+    }
+
+    public int getCopies() {
+        return copies;
+    }
+}
+
+class Book extends Publication {
+    String author;
+
+    public Book(String title, double price, int copies, String author) {
+        super(title, price, copies);
+        this.author = author;
+    }
+
+    public void orderCopies(int additionalCopies) {
+        addCopies(additionalCopies);
+        System.out.println("Ordered " + additionalCopies + " more copies of the book: " + title);
+    }
+
+    public void sellCopies(int copiesSold) {
+        double saleAmount = saleCopy(copiesSold);
+        if (saleAmount > 0) {
+            System.out.println("Sold " + copiesSold + " copies of the book: " + title + " for $" + saleAmount);
+        }
+    }
+}
+
+class Magazine extends Publication {
+    String currentIssue;
+
+    public Magazine(String title, double price, int copies, String currentIssue) {
+        super(title, price, copies);
+        this.currentIssue = currentIssue;
+    }
+
+    public void orderQty(int additionalCopies) {
+        addCopies(additionalCopies);
+        System.out.println("Ordered " + additionalCopies + " more copies of the magazine: " + title);
+    }
+
+    public void sellCopies(int copiesSold) {
+        double saleAmount = saleCopy(copiesSold);
+        if (saleAmount > 0) {
+            System.out.println("Sold " + copiesSold + " copies of the magazine: " + title + " for $" + saleAmount);
+        }
+    }
+}
+
+public class Books {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter the number of books you want to add: ");
+        int numberOfBooks = sc.nextInt();
+        sc.nextLine();  
+        Book[] books = new Book[numberOfBooks];
+        for (int i = 0; i < numberOfBooks; i++) {
+            System.out.println("\nEnter details for Book " + (i + 1) + ":");
+            System.out.print("Enter book title: ");
+            String title = sc.nextLine();
+            System.out.print("Enter book price: ");
+            double price = sc.nextDouble();
+            System.out.print("Enter number of copies: ");
+            int copies = sc.nextInt();
+            sc.nextLine(); 
+            System.out.print("Enter author name: ");
+            String author = sc.nextLine();
+
+            books[i] = new Book(title, price, copies, author);
+        }
+        System.out.print("\nEnter the number of magazines you want to add: ");
+        int numberOfMagazines = sc.nextInt();
+        sc.nextLine();  
+        Magazine[] magazines = new Magazine[numberOfMagazines];
+        for (int i = 0; i < numberOfMagazines; i++) {
+            System.out.println("\nEnter details for Magazine " + (i + 1) + ":");
+            System.out.print("Enter magazine title: ");
+            String title = sc.nextLine();
+            System.out.print("Enter magazine price: ");
+            double price = sc.nextDouble();
+            System.out.print("Enter number of copies: ");
+            int copies = sc.nextInt();
+            sc.nextLine();  
+            System.out.print("Enter current issue: ");
+            String currentIssue = sc.nextLine();
+            magazines[i] = new Magazine(title, price, copies, currentIssue);
+        }
+        int choice;
+        do {
+            System.out.println("\nMenu:");
+            System.out.println("1. Order more copies of a Book");
+            System.out.println("2. Sell copies of a Book");
+            System.out.println("3. Order more copies of a Magazine");
+            System.out.println("4. Sell copies of a Magazine");
+            System.out.println("5. Display total sales");
+            System.out.println("0. Exit");
+            System.out.print("Enter your choice: ");
+            choice = sc.nextInt();
+            switch (choice) {
+                case 1:
+                    System.out.println("Select a book to order more copies:");
+                    for (int i = 0; i < books.length; i++) {
+                        System.out.println((i + 1) + ". " + books[i].title + " (" + books[i].getCopies() + " copies available)");
+                    }
+                    int bookChoice = sc.nextInt();
+                    if (bookChoice >= 1 && bookChoice <= books.length) {
+                        System.out.print("Enter number of additional copies for the book: ");
+                        int bookCopies = sc.nextInt();
+                        books[bookChoice - 1].orderCopies(bookCopies);
+                    } else {
+                        System.out.println("Invalid book choice!");
+                    }
+                    break;
+
+                case 2:
+                    System.out.println("Select a book to sell copies:");
+                    for (int i = 0; i < books.length; i++) {
+                        System.out.println((i + 1) + ". " + books[i].title + " (" + books[i].getCopies() + " copies available)");
+                    }
+                    bookChoice = sc.nextInt();
+                    if (bookChoice >= 1 && bookChoice <= books.length) {
+                        System.out.print("Enter number of copies to sell: ");
+                        int bookCopiesSold = sc.nextInt();
+                        books[bookChoice - 1].sellCopies(bookCopiesSold);
+                    } else {
+                        System.out.println("Invalid book choice!");
+                    }
+                    break;
+                case 3:
+                    System.out.println("Select a magazine to order more copies:");
+                    for (int i = 0; i < magazines.length; i++) {
+                        System.out.println((i + 1) + ". " + magazines[i].title + " (" + magazines[i].getCopies() + " copies available)");
+                    }
+                    int magChoice = sc.nextInt();
+                    if (magChoice >= 1 && magChoice <= magazines.length) {
+                        System.out.print("Enter number of additional copies for the magazine: ");
+                        int magCopies = sc.nextInt();
+                        magazines[magChoice - 1].orderQty(magCopies);
+                    } else {
+                        System.out.println("Invalid magazine choice!");
+                    }
+                    break;
+                case 4:
+                    System.out.println("Select a magazine to sell copies:");
+                    for (int i = 0; i < magazines.length; i++) {
+                        System.out.println((i + 1) + ". " + magazines[i].title + " (" + magazines[i].getCopies() + " copies available)");
+                    }
+                    magChoice = sc.nextInt();
+                    if (magChoice >= 1 && magChoice <= magazines.length) {
+                        System.out.print("Enter number of copies to sell: ");
+                        int magCopiesSold = sc.nextInt();
+                        magazines[magChoice - 1].sellCopies(magCopiesSold);
+                    } else {
+                        System.out.println("Invalid magazine choice!");
+                    }
+                    break;
+                case 5:
+                    double totalSales = 0;
+                    for (Book book : books) {
+                        totalSales += ((book.getCopies() - book.copies) * book.price); // Sold copies * price
+                    }
+                    for (Magazine magazine : magazines) {
+                        totalSales += ((magazine.getCopies() - magazine.copies) * magazine.price); // Sold copies * price
+                    }
+                    System.out.println("Total sale of publication: $" + totalSales);
+                    break;
+                case 0:
+                    System.out.println("Exiting...");
+                    break;
+
+                default:
+                    System.out.println("Invalid choice! Please choose again.");
+            }
+        } while (choice != 0);
+        sc.close();
+    }
+}
